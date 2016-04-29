@@ -1,0 +1,4 @@
+for i in *.tar; do
+  echo "Compressing $i..."
+  xz -T0 "$i"
+done

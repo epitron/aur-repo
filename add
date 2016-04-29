@@ -1,0 +1,2 @@
+./sign "$@"
+repo-add --sign epi.db.tar.gz "$@"

@@ -1,0 +1,3 @@
+rm epi.db*
+./sign
+repo-add --verify --sign epi.db.tar.gz *.pkg.tar.xz

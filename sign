@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+pkgs = ARGV.any? ? ARGV : Dir["*.tar.{xz,gz}"]
+
+pkgs.each do |pkg|
+  unless File.exist?("#{pkg}.sig")
+    puts "____ signing #{pkg}..."
+    if system("gpg", "--detach-sign", pkg)
+      puts "     |_ ok!"
+    else
+      puts "     |_ FAILED!"
+      exit 1
+    end
+  end
+end

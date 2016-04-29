@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+
+pkgs = ARGV.any? ? ARGV : Dir["*.pkg.tar.{xz,gz}"]
+new_packages = []
+
+pkgs.each do |pkg|
+  unless File.exist?("#{pkg}.sig")
+    puts "____ signing #{pkg}..."
+    if system("gpg", "--detach-sign", pkg)
+      puts "     |_ ok!"
+      new_packages << pkg
+    else
+      puts "     |_ FAILED!"
+      new_packages.each { |np| File.unlink np }
+      exit 1
+    end
+  end
+end
+
+system("repo-add", "--sign", "epi.db.tar.gz", *new_packages)
+
+__END__
+#./compress
+#./sign
+#repo-add --new --verify --sign epi.db.tar.gz *.pkg.tar.xz
+#repo-add --new --sign epi.db.tar.gz *.pkg.tar.xz
+
+

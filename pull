@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'epitools'
+
+Path.cd "~/aur" do
+  aurs = Path["*"]
+
+  gits = Path["*-git/*/HEAD"]
+  gits.map! { |path| path.parent }
+
+  repos = (aurs+gits).select(&:dir?)
+  system("ppull", *repos)
+end
