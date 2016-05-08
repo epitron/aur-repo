@@ -1,3 +1,5 @@
 *.tar.?z
 *.sig
 *.db
+epi.files*
+epi.db*
